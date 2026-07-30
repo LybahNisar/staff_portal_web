@@ -1,18 +1,23 @@
-Name,Role,Department,Target Hours,Max Hours,Max Shifts,Active,Availability,Shift Preference,PIN
-Atharvkumar Sanjay,Junior,Kitchen,25,30,5,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,8143
-Chintan,Senior,Kitchen,45,50,6,True,"Mon(Eve),Tue(Eve),Wed(Eve),Thu(Eve),Fri(Eve),Sat(Eve),Sun(Eve)",Any,5920
-Damini Sharadchandra Aher,Senior,Kitchen,45,50,6,True,"Mon(Morn),Tue(Morn),Wed(Morn),Thu,Fri,Sat,Sun",Any,3671
-Dhiraj Mangade,Management,Both,25,45,5,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,9028
-Pamitha Perera,Junior,Kitchen,25,30,5,True,"Fri(Eve),Sat(Eve),Sun(Eve)",Any,4851
-Rajesh Yadav,Senior,Kitchen,45,50,5,True,"Mon(Morn),Tue(Morn),Wed(Morn),Thu(Morn),Fri(Morn),Sat(Morn),Sun(Morn)",Any,2794
-Nithin,Junior,Kitchen,25,30,5,True,"Mon(Eve),Tue(Eve),Wed(Eve),Thu(Eve),Fri(Eve),Sun(Eve)",Any,6315
-Mellissa Teshali Leontia,Senior,Front,45,50,6,True,"Mon,Tue,Wed,Fri,Sat,Sun",Any,1589
-Supreme Gurung,Senior,Front,45,50,6,True,"Mon(Eve),Wed,Thu(Eve),Fri,Sat",Any,7402
-Tulika Das Adhikari,Senior,Front,45,50,5,True,"Fri(Eve),Sat(Eve),Sun(Eve)",Any,5296
-Munira,Junior,Front,25,30,6,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,3184
-Dikshya,Junior,Front,25,30,5,True,"Mon(Morn),Tue(Morn),Wed(Morn),Thu(Morn),Fri(Morn),Sat(Morn),Sun(Morn)",Any,8647
-Abuzar,Junior,Front,25,30,5,True,"Tue(Eve),Wed(Eve),Thu(Eve),Fri(Eve),Sat(Eve),Sun(Eve)",Any,4053
-Awais Tahir,Management,Kitchen,0,0,5,False,,Any,9271
-Bookkeeper,Fixed,Admin,0,0,1,False,,Any,6830
-Purni,Junior,Front,25,30,5,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,2519
-Staff To Be Called (10h Extra),Junior,Both,0,10,1,True,"Mon",Any,0000
+Name,Role,Department,Target Hours,Max Hours,Max Shifts,Active,Availability,Shift Preference,PIN,Level,Performance Score,FOH Score,BOH Score,Can Open,Can Close,Can Train,Preferred Position,Notes
+Atharvkumar Sanjay,Junior,Kitchen,25,40,6,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,8143,,,,,,,,,
+Chintan,Senior,Kitchen,36,55,7,True,"Mon(Eve),Tue(Eve),Wed(Eve),Thu(Eve),Fri(Eve),Sat(Eve),Sun(Eve)",Any,5920,Level 4,80.0,2.0,4.0,Yes,Yes,No,Kitchen assistant,Can take orders at front but not trained For front house
+Damini Sharadchandra Aher,Senior,Kitchen,36,55,7,True,"Mon(Morn),Tue(Morn),Wed(Morn),Thu,Fri,Sat,Sun",Any,3671,Level 5,95.0,3.0,5.0,Yes,Yes,Yes,Kitchen Supervisor,
+Dhiraj Mangade,Management,Both,30,55,7,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,9028,Level 5,95.0,5.0,5.0,Yes,Yes,Yes,Store Supervisor,
+Pamitha Perera,Junior,Kitchen,25,30,6,True,"Fri(Eve),Sat(Eve),Sun(Eve)",Any,4851,,,,,,,,,
+Rajesh Yadav,Senior,Kitchen,36,55,7,True,"Mon(Morn),Tue,Wed,Thu(Morn),Fri(Morn),Sat(Morn),Sun(Morn)",Any,2794,Level 4,80.0,2.0,4.0,Yes,No,Yes (only on food side),Kitchen assistant,Works only breakfast shifts
+Nithin,Junior,Kitchen,25,30,6,True,"Mon(Eve),Tue(Eve),Wed(Eve),Thu(Eve),Fri(Eve),Sun(Eve)",Any,6315,Level 4,70.0,0.0,3.0,Yes,Yes,No,Kitchen assistant,"Work is good, will improve in future"
+Mellissa Teshali Leontia,Senior,Front,36,55,6,True,"Mon,Tue,Wed,Fri,Sat,Sun",Any,1589,Level 5,95.0,5.0,3.0,Yes,Yes,Yes,Front Supervisor,Can make desserts but fully can’t work in kitchen still managed both side at morning/breakfast time
+Supreme Gurung,Senior,Front,36,55,6,True,"Mon(Eve),Wed,Thu(Eve),Fri,Sat",Any,7402,Level 5,90.0,4.0,3.0,Yes,Yes,Yes,Front Team member,Can make desserts but fully can’t work in kitchen still managed both side at morning/breakfast time
+Tulika Das Adhikari,Senior,Front,36,55,6,True,"Fri(Eve),Sat(Eve),Sun(Eve)",Any,5296,,,,,,,,,
+Munira,Junior,Front,25,36,6,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,3184,,,,,,,,,
+Dikshya,Junior,Front,25,36,6,True,"Mon(Morn),Tue(Morn),Wed(Morn),Thu(Morn),Fri(Morn),Sat(Morn),Sun(Morn)",Any,8647,Level 4,80.0,4.0,2.0,Yes,No,Yes,Front Team member,Can make desserts but fully can’t work in kitchen still managed both side at morning/breakfast time
+Abuzar,Junior,Front,25,30,5,False,"Tue(Eve),Wed(Eve),Thu(Eve),Fri(Eve),Sat(Eve),Sun(Eve)",Any,4053,,,,,,,,,
+Awais Tahir,Management,Kitchen,0,0,5,False,,Any,9271,,,,,,,,,
+Bookkeeper,Fixed,Admin,0,0,1,False,,Any,6830,,,,,,,,,
+Purni,Junior,Front,25,30,6,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,2519,,,,,,,,,
+Staff To Be Called (10h Extra),Junior,Both,0,10,1,False,Mon,Any,0,,,,,,,,,
+James,Junior,Kitchen,25,30,5,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,4120,Level 3,50.0,0.0,3.0,No,No,No,Kitchen assistant,Just join still under training
+Pratiksha,Junior,Kitchen,25,30,5,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,5231,Level 3,60.0,0.0,3.0,No,No,No,Kitchen assistant,Just join still under training
+Sanskruti,Junior,Front,25,36,5,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,6342,Level 4,85.0,4.0,0.0,Yes,Yes,No,Front Team member,"Work is good, will improve in future"
+Sarah,Junior,Front,25,36,5,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,7453,Level 4,80.0,3.0,0.0,Yes,Yes,No,Front Team member,"Just joined, Work is good, will improve in future"
+Vishnu,Junior,Kitchen,25,40,5,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,8564,Level 4,80.0,3.0,4.0,No,No,No,Kitchen assistant,Just join still under training but will pick things fast
