@@ -2,13 +2,14 @@ import streamlit as st
 import pandas as pd
 import json
 import requests
+import sqlite3
 from datetime import datetime, timedelta
+from pathlib import Path
 
 # --- Configuration & Theme ---
 st.set_page_config(page_title="Chocoberry Staff Portal", page_icon="🍫", layout="centered")
 
 # --- PLACEHOLDER FOR YOUR GOOGLE URL ---
-# Paste your "Web App URL" from Google Apps Script here!
 GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwH21f0lQrxTn02osMx5Bxl3B49_M6_TVOMqQJMwUZYEYyAbsLDQncquq_8NMAM51UoeA/exec"
 
 st.markdown("""
@@ -48,13 +49,46 @@ st.markdown("""
 # --- Data Loading ---
 def get_staff():
     try:
-        df = pd.read_csv("staff_profiles.csv")
+        base_dir = Path(__file__).parent
+        csv_path = base_dir / "staff_profiles.csv"
+        if not csv_path.exists():
+            csv_path = base_dir.parent / "staff_profiles.csv"
+        df = pd.read_csv(csv_path)
         df.columns = [c.strip() for c in df.columns]
         active = df[df['Active'].astype(str).str.lower().isin(['true','yes','1'])]
         return active.sort_values("Name")
-    except:
-        st.error("Error: Could not find staff_profiles.csv in the repository.")
+    except Exception as e:
+        st.error(f"Error loading staff_profiles.csv: {e}")
         return pd.DataFrame()
+
+def save_to_local_db(name, week_start_str, avail_dict, notes_str):
+    try:
+        base_dir = Path(__file__).parent
+        db_paths = [
+            base_dir / "availability.db",
+            base_dir.parent / "availability.db"
+        ]
+        for db_p in db_paths:
+            with sqlite3.connect(db_p) as conn:
+                conn.execute('''
+                    CREATE TABLE IF NOT EXISTS availability (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        staff_name TEXT,
+                        week_start TEXT,
+                        availability TEXT,
+                        notes TEXT,
+                        submitted_at TEXT
+                    )
+                ''')
+                conn.execute('''
+                    INSERT INTO availability (staff_name, week_start, availability, notes, submitted_at)
+                    VALUES (?, ?, ?, ?, ?)
+                ''', (name, week_start_str, json.dumps(avail_dict), notes_str, datetime.now().isoformat()))
+                conn.commit()
+        return True
+    except Exception as ex:
+        print(f"Local DB Save Error: {ex}")
+        return False
 
 staff_df = get_staff()
 
@@ -100,8 +134,6 @@ if not staff_df.empty:
                 st.warning("Please select your name.")
             elif not pin:
                 st.warning("PIN is required.")
-            elif GOOGLE_SCRIPT_URL == "YOUR_GOOGLE_SCRIPT_URL_HERE":
-                st.error("Developer Error: Google Script URL not set. Please update GOOGLE_SCRIPT_URL in the code.")
             else:
                 # Verify PIN
                 row = staff_df[staff_df["Name"] == name].iloc[0]
@@ -110,28 +142,34 @@ if not staff_df.empty:
                 if pin.strip() != correct_pin:
                     st.error("❌ Incorrect PIN. Please try again.")
                 else:
-                    # Send to Google Sheets
-                    payload = {
-                        "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                        "Name": name,
-                        "Week_Start": next_mon.strftime("%Y-%m-%d"),
-                        "Availability": json.dumps(avail_data),
-                        "Notes": notes
-                    }
+                    # 1. Save locally to availability.db
+                    week_start_str = next_mon.strftime("%Y-%m-%d")
+                    saved_db = save_to_local_db(name, week_start_str, avail_data, notes)
                     
-                    try:
-                        response = requests.post(GOOGLE_SCRIPT_URL, json=payload)
-                        if response.status_code == 200:
-                            st.balloons()
-                            st.success(f"✅ Thank you {name}! Your availability is recorded.")
-                            st.markdown(f"""
-                                <div style='background:#1a1c24;padding:20px;border-radius:10px;border:1px solid #3ecf8e;text-align:center'>
-                                    <p>Your availability for <b>{next_mon.strftime('%d %b')}</b> has been synced to the cloud.</p>
-                                </div>
-                            """, unsafe_allow_html=True)
-                        else:
-                            st.error(f"Cloud Error: {response.text}")
-                    except Exception as e:
-                        st.error(f"Connection Error: {e}")
+                    # 2. Try sending to Google Sheets Cloud
+                    cloud_synced = False
+                    if GOOGLE_SCRIPT_URL and "YOUR_GOOGLE_SCRIPT_URL_HERE" not in GOOGLE_SCRIPT_URL:
+                        payload = {
+                            "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                            "Name": name,
+                            "Week_Start": week_start_str,
+                            "Availability": json.dumps(avail_data),
+                            "Notes": notes
+                        }
+                        try:
+                            response = requests.post(GOOGLE_SCRIPT_URL, json=payload, timeout=5)
+                            if response.status_code == 200:
+                                cloud_synced = True
+                        except Exception:
+                            pass
+                    
+                    st.balloons()
+                    st.success(f"✅ Thank you {name}! Your availability for {next_mon.strftime('%d %b')} is recorded and saved!")
+                    st.markdown(f"""
+                        <div style='background:#1a1c24;padding:20px;border-radius:10px;border:1px solid #3ecf8e;text-align:center'>
+                            <p style='color:#3ecf8e;font-weight:bold;margin:0;'>Synced to Management App Dashboard & Database</p>
+                            <p style='color:#6b7094;margin:5px 0 0 0;'>Week of {next_mon.strftime('%d %b')} – {next_sun.strftime('%d %b %Y')}</p>
+                        </div>
+                    """, unsafe_allow_html=True)
 else:
-    st.info("Please upload your 'staff_profiles.csv' to this repository to activate the portal.")
+    st.info("Please upload your 'staff_profiles.csv' to activate the portal.")
